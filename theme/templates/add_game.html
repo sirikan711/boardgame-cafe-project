@@ -1,0 +1,41 @@
+<!-- theme/templates/add_game.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-lg mx-auto mt-10 p-8 bg-white rounded-lg shadow-xl">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Add a New Board Game</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="mb-4">
+            <label for="{{ field.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ field.label }}</label>
+
+            <!-- ใช้ Django Widget Tweaks หรือ Custom rendering เพื่อใส่ class -->
+            <!-- วิธีพื้นฐาน: render field แล้วใช้ JS หรือ CSS จัดการ -->
+            {{ field }}
+
+            {% if field.help_text %}
+            <p class="text-gray-600 text-xs italic">{{ field.help_text|safe }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+            <p class="text-red-500 text-xs italic">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Save Game
+        </button>
+    </form>
+</div>
+
+<script>
+    // เพิ่มสไตล์ Tailwind ให้กับ input/select ที่ Django สร้างขึ้นมา
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+        if (!el.classList.contains('bg-blue-500')) { // กันไม่ให้ไปโดนปุ่ม submit
+             el.classList.add('shadow', 'appearance-none', 'border', 'rounded', 'w-full', 'py-2', 'px-3', 'text-gray-700', 'leading-tight', 'focus:outline-none', 'focus:shadow-outline');
+        }
+    });
+</script>
+{% endblock %}
