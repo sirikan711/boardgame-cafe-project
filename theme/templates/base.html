@@ -15,7 +15,11 @@
                     <span class="mr-4 text-gray-600">Hello, {{ user.username }}! ({{ user.role }})</span>
 
                     {% if user.role == 'admin' %}
-                        <a href="{% url 'report' %}" class="text-blue-500 hover:underline mr-4">Report</a>
+                        <a href="{% url 'index' %}" class="text-blue-500 hover:underline mr-4">View Games</a>
+                        <a href="{% url 'report' %}" class="text-blue-500 hover:underline mr-4">View Reports</a>
+                    {% elif user.role == 'staff' %}
+                        <a href="{% url 'index' %}" class="text-blue-500 hover:underline mr-4">View Games</a>
+
                     {% endif %}
 
                     <form action="{% url 'logout' %}" method="post" class="inline">
