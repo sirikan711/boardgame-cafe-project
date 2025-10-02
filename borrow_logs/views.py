@@ -65,3 +65,17 @@ def return_game_view(request, pk):
             game.save()
 
     return redirect('index')
+
+@login_required
+def report_view(request):
+    # จำกัดการเข้าถึงเฉพาะ Admin เท่านั้น
+    if request.user.role != 'admin':
+        return redirect('index')
+
+    # ดึงข้อมูล Log การยืมทั้งหมด โดยเรียงจากวันที่ยืมล่าสุด (descending)
+    logs = BorrowLog.objects.all().order_by('-borrow_date')
+
+    context = {
+        'logs': logs
+    }
+    return render(request, 'report.html', context)

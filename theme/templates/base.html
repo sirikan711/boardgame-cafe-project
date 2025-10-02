@@ -1,4 +1,3 @@
-<!-- theme/templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,12 @@
             <a href="{% url 'index' %}" class="text-xl font-bold text-gray-800">Board Game Cafe</a>
             <div>
                 {% if user.is_authenticated %}
-                    <span class="mr-4 text-gray-600">Hello, {{ user.username }}!</span>
+                    <span class="mr-4 text-gray-600">Hello, {{ user.username }}! ({{ user.role }})</span>
+
+                    {% if user.role == 'admin' %}
+                        <a href="{% url 'report' %}" class="text-blue-500 hover:underline mr-4">Report</a>
+                    {% endif %}
+
                     <form action="{% url 'logout' %}" method="post" class="inline">
                         {% csrf_token %}
                         <button type="submit" class="text-blue-500 hover:underline cursor-pointer p-0 border-none bg-transparent">Logout</button>
