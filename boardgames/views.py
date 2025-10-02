@@ -4,9 +4,25 @@ from django.contrib.auth.decorators import login_required
 from .models import BoardGame
 from .forms import BoardGameForm
 
+
 def index_view(request):
-    games = BoardGame.objects.all() 
-    return render(request, 'index.html', {'games': games}) 
+    # --- เพิ่ม Logic การค้นหา ---
+    search_query = request.GET.get('q', None) # ดึงค่าจาก URL ที่มี name='q'
+
+    if search_query:
+        # ถ้ามีการค้นหา ให้กรองข้อมูลเกมตามชื่อ
+        # __icontains คือการค้นหาแบบ "contains" และไม่สนตัวพิมพ์เล็ก/ใหญ่
+        games = BoardGame.objects.filter(name__icontains=search_query)
+    else:
+        # ถ้าไม่มีการค้นหา ให้แสดงเกมทั้งหมดเหมือนเดิม
+        games = BoardGame.objects.all() 
+    
+    context = {
+        'games': games,
+        'search_query': search_query, # ส่งค่าที่ค้นหากลับไปให้ template
+    }
+    
+    return render(request, 'index.html', context)
 
 @login_required
 def add_game_view(request):

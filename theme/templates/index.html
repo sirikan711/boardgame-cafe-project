@@ -12,6 +12,21 @@
         {% endif %}
     </div>
 
+    <div class="mb-4">
+        <form method="GET" action="{% url 'index' %}" class="flex items-center">
+            <input 
+                type="text" 
+                name="q" 
+                value="{{ search_query|default_if_none:'' }}" 
+                placeholder="Search for a game by name..."
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+            <button type="submit" class="ml-2 bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+                Search
+            </button>
+        </form>
+    </div>
+
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <table class="min-w-full leading-normal">
             <thead class="bg-gray-800 text-white">
@@ -51,7 +66,6 @@
                             </span>
                         {% endif %}
                     </td>
-
                     {% if user.is_authenticated %}
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         {% if user.role == 'admin' %}
@@ -78,7 +92,7 @@
                 {% empty %}
                 <tr>
                     <td colspan="{% if user.is_authenticated %}5{% else %}4{% endif %}" class="text-center py-10 text-gray-500">
-                        No games found in the database.
+                        No games found matching your search.
                     </td>
                 </tr>
                 {% endfor %}
