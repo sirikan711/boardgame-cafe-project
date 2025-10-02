@@ -1,4 +1,3 @@
-## Board Game Cafe Project
 # ระบบจัดการร้านบอร์ดเกมคาเฟ่ (Board Game Cafe Management System)
 
 เว็บแอปพลิเคชันที่พัฒนาด้วย Django สำหรับช่วยจัดการสต็อกบอร์ดเกมและบันทึกประวัติการยืม-คืนภายในร้านบอร์ดเกมคาเฟ่ ระบบถูกออกแบบมาสำหรับผู้ใช้งาน 2 ระดับ คือ **Admin** (ผู้ดูแลระบบ) ซึ่งมีสิทธิ์ควบคุมทุกอย่าง และ **Staff** (พนักงาน) ที่ดูแลการยืม-คืนเกมในแต่ละวัน
@@ -20,9 +19,9 @@
 
 ## เทคโนโลยีที่ใช้
 
-- **nBacked:** Python, Django
+- **Backed:** Python, Django
 - **Database:** SQLite 3 (ฐานข้อมูลเริ่มต้น)
-- **Frontend:** LHTM, Tailwind CSS
+- **Frontend:** HTML, Tailwind CSS
 
 ## การติดตั้งและเริ่มใช้งาน
 
@@ -37,7 +36,7 @@
 
 1.  **Clone a repository (คัดลอกโปรเจกต์จาก Repository):**
     ```bash
-    git clone [https://github.com/your-username/boardgame-cafe-project.git](https://github.com/your-username/boardgame-cafe-project.git)
+    git clone https://github.com/sirikan711/boardgame-cafe-project.git
     cd boardgame-cafe-project
     ```
 
