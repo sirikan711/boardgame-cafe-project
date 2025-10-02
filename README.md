@@ -36,7 +36,7 @@
 
 1.  **Clone a repository (คัดลอกโปรเจกต์จาก Repository):**
     ```bash
-    git clone [https://github.com/your-username/boardgame-cafe-project.git](https://github.com/your-username/boardgame-cafe-project.git)
+    git clone https://github.com/sirikan711/boardgame-cafe-project.git
     cd boardgame-cafe-project
     ```
 
