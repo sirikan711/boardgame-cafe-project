@@ -1,9 +1,10 @@
 # mysite/urls.py
 from django.contrib import admin
-from django.urls import path, include 
+from django.urls import path, include
 from users.views import signup_view, login_view, logout_view
-# แก้ไขการ import ให้รวม view ใหม่ๆ เข้ามาด้วย
 from boardgames.views import index_view, add_game_view, edit_game_view, delete_game_view
+# --- Import view ของ borrow_logs เข้ามา ---
+from borrow_logs.views import borrow_game_view, return_game_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,7 +16,10 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
 
     path('games/add/', add_game_view, name='add_game'),
-    # --- เพิ่ม 2 บรรทัดนี้ ---
     path('games/<int:pk>/edit/', edit_game_view, name='edit_game'),
     path('games/<int:pk>/delete/', delete_game_view, name='delete_game'),
+
+    # --- เพิ่ม 2 บรรทัดนี้สำหรับระบบยืม-คืน ---
+    path('games/<int:pk>/borrow/', borrow_game_view, name='borrow_game'),
+    path('games/<int:pk>/return/', return_game_view, name='return_game'),
 ]

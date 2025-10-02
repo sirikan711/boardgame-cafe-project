@@ -21,10 +21,9 @@
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Players</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Status</th>
                     
-                    {% if user.is_authenticated and user.role == 'admin' %}
+                    {% if user.is_authenticated %}
                         <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Actions</th>
                     {% endif %}
-
                 </tr>
             </thead>
             <tbody>
@@ -53,17 +52,35 @@
                         {% endif %}
                     </td>
 
-                    {% if user.is_authenticated and user.role == 'admin' %}
+                    {% if user.is_authenticated %}
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <a href="{% url 'edit_game' game.pk %}" class="text-indigo-600 hover:text-indigo-900 font-semibold">Edit</a>
-                        <a href="{% url 'delete_game' game.pk %}" class="text-red-600 hover:text-red-900 font-semibold ml-4">Delete</a>
+                        {% if user.role == 'admin' %}
+                            <a href="{% url 'edit_game' game.pk %}" class="text-indigo-600 hover:text-indigo-900 font-semibold">Edit</a>
+                            <a href="{% url 'delete_game' game.pk %}" class="text-red-600 hover:text-red-900 font-semibold ml-4">Delete</a>
+                        
+                        {% elif user.role == 'staff' %}
+                            {% if game.status == 'available' %}
+                                <form action="{% url 'borrow_game' game.pk %}" method="post" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-xs">
+                                        Borrow
+                                    </button>
+                                </form>
+                            {% elif game.status == 'borrowed' %}
+                                <form action="{% url 'return_game' game.pk %}" method="post" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded text-xs">
+                                        Return
+                                    </button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
                     </td>
                     {% endif %}
-
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="{% if user.is_authenticated and user.role == 'admin' %}5{% else %}4{% endif %}" class="text-center py-10 text-gray-500">
+                    <td colspan="{% if user.is_authenticated %}5{% else %}4{% endif %}" class="text-center py-10 text-gray-500">
                         No games found in the database.
                     </td>
                 </tr>
