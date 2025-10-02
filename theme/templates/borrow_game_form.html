@@ -1,13 +1,11 @@
-<!-- Borrow Game Form -->
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-lg mx-auto mt-10 p-8 bg-white rounded-lg shadow-xl">
-    <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Borrow Game</h2>
-    <p class="text-center text-gray-600 mb-6">Game: <strong>{{ game.name }}</strong></p>
-    
-    <form method="post">
+<div class="max-w-md mx-auto mt-10">
+    <form method="post" class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
         {% csrf_token %}
+        <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Borrow Game</h2>
+        <p class="text-center text-gray-600 mb-6">Game: <strong>{{ game.name }}</strong></p>
         
         <div class="mb-4">
             <label for="{{ form.customer_name.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
@@ -18,17 +16,20 @@
                 name="{{ form.customer_name.name }}" 
                 id="{{ form.customer_name.id_for_label }}"
                 required
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter customer's name"
             >
             {% for error in form.customer_name.errors %}
-                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                <p class="text-red-500 text-xs italic mt-2">{{ error }}</p>
             {% endfor %}
         </div>
 
-        <button type="submit" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Confirm Borrow
-        </button>
-        <a href="{% url 'index' %}" class="block text-center mt-4 text-gray-600 hover:underline">Cancel</a>
+        <div class="mt-6">
+            <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline">
+                Confirm Borrow
+            </button>
+            <a href="{% url 'index' %}" class="block text-center mt-4 text-gray-600 hover:text-blue-600 font-semibold">Cancel</a>
+        </div>
     </form>
 </div>
 {% endblock %}

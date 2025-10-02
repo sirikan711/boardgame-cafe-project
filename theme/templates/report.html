@@ -1,44 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mx-auto mt-10 px-4">
-    <div class="flex justify-between items-center mb-6">
+<div class="container mx-auto px-4">
+    <div class="mb-6">
         <h1 class="text-3xl font-bold text-gray-800">Borrowing History Report</h1>
+        <p class="text-gray-600">Showing all records, sorted by the most recent.</p>
     </div>
 
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <table class="min-w-full leading-normal">
             <thead class="bg-gray-800 text-white">
                 <tr>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Game Name</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Customer Name</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Borrow Date</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Return Date</th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Staff</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Game Name</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Customer</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Borrow Date</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Return Date</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Handled by (Staff)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for log in logs %}
-                <tr class="hover:bg-gray-100">
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ log.game.name }}</p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ log.customer_name }}</p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ log.borrow_date|date:"Y-m-d H:i" }}</p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <tr class="hover:bg-gray-50 border-b border-gray-200">
+                    <td class="px-5 py-4 text-sm"><p class="text-gray-900 font-semibold">{{ log.game.name }}</p></td>
+                    <td class="px-5 py-4 text-sm"><p class="text-gray-700">{{ log.customer_name }}</p></td>
+                    <td class="px-5 py-4 text-sm"><p class="text-gray-700">{{ log.borrow_date|date:"d M Y, H:i" }}</p></td>
+                    <td class="px-5 py-4 text-sm">
                         {% if log.return_date %}
-                            <p class="text-gray-900 whitespace-no-wrap">{{ log.return_date|date:"Y-m-d H:i" }}</p>
+                            <p class="text-gray-700">{{ log.return_date|date:"d M Y, H:i" }}</p>
                         {% else %}
-                            <span class="text-gray-500 italic">Not returned yet</span>
+                            <span class="italic text-gray-500">Not returned yet</span>
                         {% endif %}
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ log.borrowed_by_staff.username }}</p>
-                    </td>
+                    <td class="px-5 py-4 text-sm"><p class="text-gray-700">{{ log.borrowed_by_staff.username }}</p></td>
                 </tr>
                 {% empty %}
                 <tr>

@@ -1,100 +1,28 @@
-<!-- edit_game.html -->
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="max-w-lg mx-auto mt-10 p-8 bg-white rounded-lg shadow-xl">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Edit Game</h2>
-    
-    <form method="post">
+<div class="max-w-lg mx-auto mt-10">
+    <form method="post" class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
         {% csrf_token %}
-        
-        <div class="mb-4">
-            <label for="{{ form.name.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
-                {{ form.name.label }}
-            </label>
-            <input 
-                type="text" 
-                name="{{ form.name.name }}" 
-                id="{{ form.name.id_for_label }}"
-                value="{{ form.name.value|default_if_none:'' }}"
-                required
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-            {% for error in form.name.errors %}
-                <p class="text-red-500 text-xs italic">{{ error }}</p>
-            {% endfor %}
-        </div>
+        <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Edit Game</h2>
+        <p class="text-center text-gray-600 mb-6"><strong>{{ game.name }}</strong></p>
 
+        {% for field in form %}
         <div class="mb-4">
-            <label for="{{ form.category.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
-                {{ form.category.label }}
-            </label>
-            <input 
-                type="text" 
-                name="{{ form.category.name }}" 
-                id="{{ form.category.id_for_label }}"
-                value="{{ form.category.value|default_if_none:'' }}"
-                required
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-            {% for error in form.category.errors %}
-                <p class="text-red-500 text-xs italic">{{ error }}</p>
+            <label for="{{ field.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ field.label }}</label>
+            {{ field }} {# <-- Django จะดึงฟอร์มที่ใส่สไตล์จาก forms.py มาแสดงให้เอง #}
+            {% for error in field.errors %}
+                <p class="text-red-500 text-xs italic mt-2">{{ error }}</p>
             {% endfor %}
         </div>
-        <div class="mb-4">
-            <label for="{{ form.players_min.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
-                {{ form.players_min.label }}
-            </label>
-            <input 
-                type="number" 
-                name="{{ form.players_min.name }}" 
-                id="{{ form.players_min.id_for_label }}"
-                value="{{ form.players_min.value|default_if_none:'' }}"
-                required
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-            {% for error in form.players_min.errors %}
-                <p class="text-red-500 text-xs italic">{{ error }}</p>
-            {% endfor %}
+        {% endfor %}
+
+        <div class="mt-6">
+            <button type="submit" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline">
+                Save Changes
+            </button>
+            <a href="{% url 'index' %}" class="block text-center mt-4 text-gray-600 hover:text-blue-600 font-semibold">Cancel</a>
         </div>
-        <div class="mb-4">
-            <label for="{{ form.players_max.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
-                {{ form.players_max.label }}
-            </label>
-            <input 
-                type="number" 
-                name="{{ form.players_max.name }}" 
-                id="{{ form.players_max.id_for_label }}"
-                value="{{ form.players_max.value|default_if_none:'' }}"
-                required
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-            {% for error in form.players_max.errors %}
-                <p class="text-red-500 text-xs italic">{{ error }}</p>
-            {% endfor %}
-        </div>
-        <div class="mb-6">
-            <label for="{{ form.status.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
-                {{ form.status.label }}
-            </label>
-            <select 
-                name="{{ form.status.name }}" 
-                id="{{ form.status.id_for_label }}"
-                required
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-                <option value="" disabled {% if form.status.value == None %}selected{% endif %}>Select status</option>
-                <option value="available" {% if form.status.value == "available" %}selected{% endif %}>Available</option>
-                <option value="unavailable" {% if form.status.value == "unavailable" %}selected{% endif %}>Unavailable</option>
-            </select>
-            {% for error in form.status.errors %}
-                <p class="text-red-500 text-xs italic">{{ error }}</p>
-            {% endfor %}
-        </div>
-        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Save Changes
-        </button>
-        <a href="{% url 'index' %}" class="block text-center mt-4 text-gray-600 hover:underline">Cancel</a>
     </form>
 </div>
 {% endblock %}
