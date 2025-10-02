@@ -4,27 +4,40 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from boardgames.models import BoardGame
 from .models import BorrowLog
+from .forms import BorrowForm
 
 @login_required
 def borrow_game_view(request, pk):
-    # อนุญาตเฉพาะ staff และ admin
     if request.user.role not in ['admin', 'staff']:
         return redirect('index')
 
     game = get_object_or_404(BoardGame, pk=pk)
 
-    # ตรวจสอบว่าเกมว่างจริงหรือไม่
-    if game.status == 'available':
-        # สร้าง log การยืมใหม่
-        BorrowLog.objects.create(
-            game=game,
-            borrowed_by_staff=request.user
-        )
-        # อัปเดตสถานะเกมเป็น 'borrowed'
-        game.status = 'borrowed'
-        game.save()
+    # ถ้าเกมไม่ว่าง ให้กลับไปหน้าแรกเลย
+    if game.status != 'available':
+        return redirect('index')
 
-    return redirect('index')
+    if request.method == 'POST':
+        form = BorrowForm(request.POST)
+        if form.is_valid():
+            borrow_log = form.save(commit=False)
+            borrow_log.game = game
+            borrow_log.borrowed_by_staff = request.user
+            borrow_log.borrow_date = timezone.now()
+            borrow_log.save()
+
+            # อัปเดตสถานะเกมเป็น 'borrowed'
+            game.status = 'borrowed'
+            game.save()
+
+            return redirect('index')
+    else:
+        form = BorrowForm()
+
+    return render(request, 'borrow_game_form.html', {
+        'form': form,
+        'game': game
+    })
 
 @login_required
 def return_game_view(request, pk):

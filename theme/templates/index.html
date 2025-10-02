@@ -60,12 +60,9 @@
                         
                         {% elif user.role == 'staff' %}
                             {% if game.status == 'available' %}
-                                <form action="{% url 'borrow_game' game.pk %}" method="post" class="inline">
-                                    {% csrf_token %}
-                                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-xs">
-                                        Borrow
-                                    </button>
-                                </form>
+                                <a href="{% url 'borrow_game' game.pk %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-xs">
+                                    Borrow
+                                </a>
                             {% elif game.status == 'borrowed' %}
                                 <form action="{% url 'return_game' game.pk %}" method="post" class="inline">
                                     {% csrf_token %}

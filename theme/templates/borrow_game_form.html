@@ -1,0 +1,34 @@
+<!-- Borrow Game Form -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto mt-10 p-8 bg-white rounded-lg shadow-xl">
+    <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Borrow Game</h2>
+    <p class="text-center text-gray-600 mb-6">Game: <strong>{{ game.name }}</strong></p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="{{ form.customer_name.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
+                {{ form.customer_name.label }}
+            </label>
+            <input 
+                type="text" 
+                name="{{ form.customer_name.name }}" 
+                id="{{ form.customer_name.id_for_label }}"
+                required
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+            {% for error in form.customer_name.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Confirm Borrow
+        </button>
+        <a href="{% url 'index' %}" class="block text-center mt-4 text-gray-600 hover:underline">Cancel</a>
+    </form>
+</div>
+{% endblock %}
